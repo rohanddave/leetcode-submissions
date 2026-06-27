@@ -4,8 +4,7 @@ class Solution:
         goal: find the first overlapping interval of size atleast dur. if none return []
 
         observations: 
-        - slots for each person don't overlap 
-        - slots are sorted by start time 
+        - slots for each person don't overlap
 
         approach: 
         - maintain a pointer for each list i, j
@@ -27,7 +26,7 @@ class Solution:
                 j += 1
 
         complexity: 
-        TC: O(len(slots1) + len(slots2))
+        TC: O(n log n + m log m + n + m) = O(n log n + m log m)
         SC: O(1)
         '''
         def does_overlap(a, b): 
@@ -35,7 +34,7 @@ class Solution:
         
         slots1.sort()
         slots2.sort() 
-        
+
         i, j = 0, 0 
         while i < len(slots1) and j < len(slots2):
             slot_A, slot_B = slots1[i], slots2[j]
