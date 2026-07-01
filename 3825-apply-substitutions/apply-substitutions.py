@@ -40,7 +40,8 @@ class Solution:
                 else: 
                     answer.append(replacement_str[i])
                     i += 1
-            return ''.join(answer)
+            memo[var] = ''.join(answer)
+            return memo[var]
 
         while i < len(text): 
             if text[i] == '%':
