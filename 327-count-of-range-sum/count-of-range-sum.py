@@ -27,32 +27,34 @@ class Solution:
         '''
         n = len(nums)
         prefix = [0]
-        curr_sum = 0
 
-        for num in nums:
-            curr_sum += num
-            prefix.append(curr_sum)
+        for i, num in enumerate(nums):
+            prefix.append(prefix[-1] + num)
 
+        # co-ordinate compression for efficient fenwick tree
         values = sorted(set(prefix))
         index = {
             val: i + 1
             for i, val in enumerate(values)
         }
+
+        # create fenwick tree with compressed co-ordinates 
+        # NOTE: fenwick tree stores the frequency of prefix sum at compressed co-ordinate index; tree[i] = val means the compressed co-ordinate index is i and the val is the frequency of the prefix sum
         seen = FenwickTree(len(values))
         seen.update(index[0], 1)
 
         count = 0
-        curr_sum = 0
-        for num in nums: 
-            curr_sum += num 
-            left_val, right_val = curr_sum - upper, curr_sum - lower
+        for i in range(1, len(prefix)):
+            left_val, right_val = prefix[i] - upper, prefix[i] - lower
 
-            left_idx = bisect_left(values, left_val) + 1
-            right_idx = bisect_right(values, right_val)
+            # we need binary search because left_val and right_val might not exist exactly in fenwick tree, binary search gives us the position of arbitary values 
+            # NOTE: fenwick tree is 1 indexed so binary search bounds needs to be handled accrodingly since it return 0 based index
+            left_idx = bisect_left(values, left_val) # first greater than equal to 
+            right_idx = bisect_right(values, right_val) - 1 # bisect_right = first greater than x; bisect_right - 1 = last less than equal to
 
-            count += seen.range_query(left_idx, right_idx)
+            count += seen.range_query(left_idx + 1, right_idx + 1) # converting 0 based index to 1 based index
 
-            seen.update(index[curr_sum], 1)
+            seen.update(index[prefix[i]], 1) # increment the freq of prefix[i] by 1
 
 
         return count
