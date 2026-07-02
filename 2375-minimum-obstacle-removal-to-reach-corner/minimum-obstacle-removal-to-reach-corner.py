@@ -2,7 +2,7 @@ class Solution:
     def minimumObstacles(self, grid: List[List[int]]) -> int:
         m, n = len(grid), len(grid[0])
         q = collections.deque([(0, 0, 0)])
-        visited = set()
+        visited = {(0, 0)}
 
         while q:
             removals, r, c = q.popleft() 
