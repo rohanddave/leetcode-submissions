@@ -30,23 +30,22 @@ class Solution:
         - can(k) will create a set of [0:k] of removable and perform a string subsequence check between s and p where if i is in the subset of removable we skip that character else we perform subsequence check: 
             - if s[i] == p[j] return dfs(i + 1, j + 1) 
             - else return dfs(i + 1, j)
-        base case if j == len(p) return i == len(s)
+        base case if j == len(p) return True
         elif i == len(s) return false
+
+        Complexity: 
+        TC: O(log len(removable) * len(p))
         '''
         def can(k): 
             removable_subset = set(removable[:k + 1])
-            def check(i, j): 
+            j = 0
+            for i in range(len(s)): 
                 if j == len(p):
-                    return True
-                elif i == len(s):
-                    return False 
-                
-                if i in removable_subset: 
-                    return check(i + 1, j)
-                if s[i] == p[j]:
-                    return check(i + 1, j + 1)
-                return check(i + 1, j)
-            return check(0, 0)
+                    break
+                if i in removable_subset or s[i] != p[j]:
+                    continue 
+                j += 1
+            return j == len(p)
 
         left,  right = 0, len(removable)
 
