@@ -37,7 +37,7 @@ class Solution:
         TC: O(log len(removable) * len(p))
         '''
         def can(k): 
-            removable_subset = set(removable[:k + 1])
+            removable_subset = set(removable[:k])
             j = 0
             for i in range(len(s)): 
                 if j == len(p):
@@ -47,7 +47,7 @@ class Solution:
                 j += 1
             return j == len(p)
 
-        left,  right = 0, len(removable)
+        left,  right = 0, len(removable) + 1
 
         while left < right: 
             m = (left + right) // 2
@@ -56,5 +56,5 @@ class Solution:
                 right = m
             else:
                 left = m + 1
-        return left
+        return left - 1
 
