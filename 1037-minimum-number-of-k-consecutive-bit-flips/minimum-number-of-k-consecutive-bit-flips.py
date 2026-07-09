@@ -28,7 +28,7 @@ class Solution:
 
         '''
         n = len(nums)
-        started = [0] * n
+        started = [False] * n
         active = 0 
         ans = 0
 
@@ -37,12 +37,12 @@ class Solution:
 
         for i in range(n):
             if i >= k:
-                active -= started[i - k]
+                active -= 1 if started[i - k] else 0
 
             if final(i, active) == 0: 
                 if i + k > n:
                     return -1
-                started[i] = 1
+                started[i] = True
                 active += 1
                 ans += 1
 
