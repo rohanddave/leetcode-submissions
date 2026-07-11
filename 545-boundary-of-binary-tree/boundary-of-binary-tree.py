@@ -6,52 +6,50 @@
 #         self.right = right
 class Solution:
     def boundaryOfBinaryTree(self, root: Optional[TreeNode]) -> List[int]:
-        if not root:
-            return []
-        
-        def is_leaf(node):
-            return node and (not node.left and not node.right)
-        
-        left = []
-        def left_boundry(node):
-            if not node or is_leaf(node): 
-                return 
-            left.append(node.val)
-            if node.left:
-                left_boundry(node.left)
-            elif node.right:
-                left_boundry(node.right)
-
-        right = [] 
-        def right_boundry(node):
-            if not node or is_leaf(node):
+        left = [] 
+        def collect_left(node): 
+            if not node or (not node.left and not node.right):
                 return
+            left.append(node.val) 
+            if node.left: 
+                collect_left(node.left)
+            elif node.right: 
+                collect_left(node.right)
+        
+        right = []
+        def collect_right(node):
+            if not node or (not node.left and not node.right):
+                return 
             
             right.append(node.val)
-            if node.right:
-                right_boundry(node.right)
+            if node.right: 
+                collect_right(node.right)
             elif node.left:
-                right_boundry(node.left)
-        
-        leaves = [] 
-        def collect_leaves(node):
+                collect_right(node.left)
+
+        leaves = []
+        def collect_leaves(node): 
             if not node:
                 return 
             
-            if is_leaf(node):
+            if not node.left and not node.right:
                 leaves.append(node.val)
             
             collect_leaves(node.left)
             collect_leaves(node.right)
         
-        if is_leaf(root):
+        if not root:
+            return []
+        if not root.left and not root.right:
             return [root.val]
-            
-        left_boundry(root.left)
-        right_boundry(root.right)
+
+        collect_left(root.left)
+        collect_right(root.right)
         collect_leaves(root)
 
-        return [root.val] + left + leaves + right[::-1]
+        return [root.val] + left + leaves + right[::-1] 
 
+            
 
+            
         
