@@ -1,8 +1,8 @@
 class TreeNode: 
     def __init__(self, l, r, val=0, left=None, right=None):
-        self.l = l 
+        self.l = l
         self.r = r
-        self.val = val 
+        self.val = val
         self.left = left
         self.right = right 
 
@@ -10,16 +10,15 @@ class SegmentTree:
     def __init__(self, n): 
         self.root = self._build(1, n)
     
-    def _build(self, l, r):
+    def _build(self, l, r): 
         node = TreeNode(l, r)
         if l == r:
             return node 
-        
         m = (l + r) // 2
         node.left = self._build(l, m)
         node.right = self._build(m + 1, r)
         node.val = max(node.left.val, node.right.val)
-        return node 
+        return node
     
     def query(self, node, ql, qr): 
         if ql <= node.l and qr >= node.r: 
@@ -29,57 +28,53 @@ class SegmentTree:
         
         return max(self.query(node.left, ql, qr), self.query(node.right, ql, qr))
     
-    def update(self, node, ql, qr, new_val): 
+    def update(self, node, ql, qr, val): 
         if ql > node.r or qr < node.l:
-            return 
+            return
         
         if node.l == node.r:
-            node.val = new_val 
+            node.val = val 
             return 
-
-        self.update(node.left, ql, qr, new_val)
-        self.update(node.right, ql, qr, new_val)
+        
+        self.update(node.left, ql, qr, val)
+        self.update(node.right, ql, qr, val)
         node.val = max(node.left.val, node.right.val)
-        return
+        return 
 
 class Solution:
     def fallingSquares(self, positions: List[List[int]]) -> List[int]:
         '''
-        problem: 
-        - positions[i] = [x coordinate of left edge, side length]
-        
-        goal: return ans where ans[i] is the tallest height after dropping ith square
+        goal: return ans arr where ans[i] is the tallest stack of squares 
 
-        observations:
-        - square height influence is in the range [left, left + side)
-        
+        observations: 
+        - when a square falls only [left, left + side] positions height changes 
+        - points on x axis could be any positive number 
+        - a square lands on the highest point between [left, left + side] and all the point's height becomes highest point + height of new square
+
         approach: 
-        - for the height of the stack we need the max existing y height in the range [left, left + side)
+        - use a segment tree to update the heights of points from [left, left + side)
+        - track the highest point for every square. max(prev, new_height)
+        - segment tree stores the max height 
+        - indices are all boundry points for all squares     
         '''
-        boundaries = []
+
+        boundary = [] 
         for left, side in positions: 
-            boundaries.extend([left, left + side])
+            boundary.extend([left, left + side])
         
-        coords = sorted(set(boundaries))
+        coords = sorted(set(boundary))
         rank = {x: i + 1 for i, x in enumerate(coords)}
 
         seg_tree = SegmentTree(len(rank))
         ans = [0] * len(positions)
 
-        for i, (left, side) in enumerate(positions):
+        for i, (left, side) in enumerate(positions): 
             start, end = left, left + side
-            ql, qr = rank[left], rank[end] - 1
-            base = seg_tree.query(seg_tree.root, ql, qr)
-            
-            new_height = base + side
-            seg_tree.update(seg_tree.root, ql, qr, new_height)
-            # for point in range(start, end): 
-            #     if point in rank: 
-            #         seg_tree.update(seg_tree.root, rank[point], rank, new_height)
-            
-            ans[i] = max(new_height, 0 if i == 0 else ans[i - 1])
-            
+            ql, qr = rank[start], rank[end] - 1
+            curr_height = seg_tree.query(seg_tree.root, ql, qr) 
+            new_height = curr_height + side
+            ans[i] = max(ans[i - 1] if i != 0 else 0, new_height)
+            seg_tree.update(seg_tree.root, rank[start], rank[end] - 1, new_height)
         return ans
-
-
+        
         
