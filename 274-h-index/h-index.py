@@ -16,14 +16,14 @@ class Solution:
             return count >= x
 
         
-        l, r = 0, len(citations)
+        l, r = 0, len(citations) + 1
         while l < r: 
-            m = (l + r + 1) // 2
-            if can(m):
-                l = m
+            m = (l + r) // 2
+            if not can(m):
+                r = m
             else:
-                r = m - 1
-        return l
+                l = m + 1
+        return l - 1
 
 
         
