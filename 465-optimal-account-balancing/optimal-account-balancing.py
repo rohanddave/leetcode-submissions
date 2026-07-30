@@ -36,11 +36,12 @@ class Solution:
         state: 
         - 
         '''
-        balances = [0] * 12
+        net = collections.defaultdict(int)
         for from_id, to_id, amt in transactions:
-            balances[from_id] -= amt # -ve balance means this person is owed money
-            balances[to_id] += amt # +ve balance means this person needs to pay money
-
+            net[from_id] -= amt # -ve balance means this person is owed money
+            net[to_id] += amt # +ve balance means this person needs to pay money
+        
+        balances = [val for val in net.values() if val != 0]
         # i index is for each positve balance which should be paired with a negative j index
 
         # +5, -10
@@ -54,11 +55,19 @@ class Solution:
             count = float('inf')
             for j in range(i + 1, len(balances)):
                 # if opposite signs and neither is 0
-                balance_i_cp, balance_j_cp = balances[i], balances[j]
                 if balances[j] * balances[i] < 0:
-                    balances[j] += balances[i] 
-                    count = min(count, 1 + dfs(i + 1))
-                    balances[j] -= balances[i]
+                    original_i, original_j = balances[i], balances[j]
+
+                    transfer = min(abs(balances[i]), abs(balances[j]))
+                    if balances[i] < 0: 
+                        balances[i] += transfer
+                        balances[j] -= transfer
+                    else:
+                        balances[i] -= transfer
+                        balances[j] += transfer
+                    
+                    count = min(count, 1 + dfs(i + 1 if balances[i] == 0 else i))
+                    balances[i], balances[j] = original_i, original_j
             return count
 
         return dfs(0)
