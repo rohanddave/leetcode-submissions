@@ -14,24 +14,7 @@ class Solution:
         approach: 
         - 
         
-        '''
-
-        def extract(log): 
-            res = []
-            curr = ''
-
-            i = 0 
-            while i < len(log):
-                if log[i] == ' ':
-                    res.append(curr)
-                    curr = ''
-                
-                if len(curr) == 2:
-                    return res
-                
-                curr += log[i]
-            return []
-        
+        '''        
         digit_logs = [] 
         letter_logs = []
         heap = []
