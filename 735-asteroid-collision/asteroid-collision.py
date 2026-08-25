@@ -8,9 +8,8 @@ class Solution:
                 if not stack or (stack and stack[-1] < 0): 
                     stack.append(asteroid)
                 # if top of stack is positive >= abs(asteroid)
-                elif stack and stack[-1] > 0:
-                    if stack[-1] == abs(asteroid):
-                        stack.pop() 
+                elif stack and stack[-1] > 0 and stack[-1] == abs(asteroid):
+                    stack.pop() 
             else: 
                 stack.append(asteroid)
 
