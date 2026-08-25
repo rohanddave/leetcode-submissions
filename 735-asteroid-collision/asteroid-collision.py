@@ -5,10 +5,7 @@ class Solution:
             if asteroid < 0:
                 while stack and stack[-1] > 0 and stack[-1] < abs(asteroid):
                     stack.pop()
-                if not stack: 
-                    stack.append(asteroid)
-                # if top of stack is left moving 
-                elif stack and stack[-1] < 0:
+                if not stack or (stack and stack[-1] < 0): 
                     stack.append(asteroid)
                 # if top of stack is positive >= abs(asteroid)
                 elif stack and stack[-1] > 0:
