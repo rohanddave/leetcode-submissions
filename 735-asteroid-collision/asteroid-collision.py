@@ -10,7 +10,6 @@ class Solution:
                 # if top of stack is left moving 
                 elif stack and stack[-1] < 0:
                     stack.append(asteroid)
-                    continue
                 # if top of stack is positive >= abs(asteroid)
                 elif stack and stack[-1] > 0:
                     if stack[-1] == abs(asteroid):
