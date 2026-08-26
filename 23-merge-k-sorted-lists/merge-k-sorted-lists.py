@@ -6,26 +6,43 @@
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
         if not lists:
-            return None
+            return None 
+        n = len(lists)
 
-        heap = []
+        def merge(l1, l2): 
+            if not l1 and not l2:
+                return None
+            if not l1:
+                return l2
+            if not l2:
+                return l1 
+            
+            dummy = ListNode()
+            curr = dummy 
 
-        for idx, head in enumerate(lists): 
-            if head:
-                heapq.heappush(heap, (head.val, idx, head))
-
-        dummy = ListNode()
-        curr = dummy
-
-        while heap: 
-            _, idx, node = heapq.heappop(heap)
-            curr.next = node 
-            curr = node
-
-            if node.next:
-                heapq.heappush(heap, (node.next.val, idx, node.next))
+            while l1 and l2: 
+                if l1.val < l2.val: 
+                    curr.next = l1
+                    l1 = l1.next
+                else:
+                    curr.next = l2
+                    l2 = l2.next
+                curr = curr.next
+            
+            if l1: 
+                curr.next = l1
+            if l2: 
+                curr.next = l2
+            return dummy.next
         
-        return dummy.next
+        while len(lists) > 1:
+            merged = [] 
+            for i in range(0, len(lists), 2): 
+                l1, l2 = lists[i], lists[i + 1] if i + 1 < len(lists) else None
+                merged.append(merge(l1, l2))
+            lists = merged
+        return lists[0]
+
 
 
         
