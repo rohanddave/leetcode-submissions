@@ -3,27 +3,29 @@
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
-import heapq 
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
-        dummy = ListNode() 
-        curr = dummy 
+        if not lists:
+            return None
 
         heap = []
-        for i, head in enumerate(lists): 
-            if head: 
-                heapq.heappush(heap, (head.val, i, head))
-    
+
+        for idx, head in enumerate(lists): 
+            if head:
+                heapq.heappush(heap, (head.val, idx, head))
+
+        dummy = ListNode()
+        curr = dummy
+
         while heap: 
-            _, list_idx, node = heapq.heappop(heap) 
+            _, idx, node = heapq.heappop(heap)
             curr.next = node 
-            curr = curr.next
+            curr = node
 
             if node.next:
-                heapq.heappush(heap, (node.next.val, list_idx, node.next))
-        return dummy.next 
-
+                heapq.heappush(heap, (node.next.val, idx, node.next))
         
+        return dummy.next
 
 
         
