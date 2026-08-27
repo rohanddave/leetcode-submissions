@@ -12,5 +12,5 @@ class Solution:
 
             mapping[key].append(string)
         
-        return [mapping[key] for key in mapping.keys()]
+        return list(mapping.values())
         
