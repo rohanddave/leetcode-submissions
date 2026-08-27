@@ -1,16 +1,16 @@
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        m = {}
-        for s in strs: 
-            count = [0] * 26
-            for char in s: 
-                index = ord(char) - ord('a')
-                count[index] += 1
-            key = tuple(count)
-            if key not in m: 
-                m[key] = []
-            m[key].append(s)
+        mapping = collections.defaultdict(list)
 
-        return list(m.values())
+        for string in strs: 
+            counts = [0] * 26
+            for char in string: 
+                counts[ord(char) - ord('a')] += 1
+            key = ''
+            for i, count in enumerate(counts): 
+                key += str(count) + chr(ord('a') + i)
 
+            mapping[key].append(string)
+        
+        return [mapping[key] for key in mapping.keys()]
         
