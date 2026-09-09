@@ -10,11 +10,23 @@ class WordDistance:
             self.mapping[word].append(i)
 
     def shortest(self, word1: str, word2: str) -> int:
+        heap = [(abs(self.mapping[word1][0] - self.mapping[word2][0]), 0, 0)] 
         res = float('inf')
-        for i in self.mapping[word1]:
-            for j in self.mapping[word2]: 
-                res = min(res, abs(i - j))
+        while heap: 
+            val, i, j = heapq.heappop(heap)
+            res = min(res, val) 
+
+            if j + 1 < len(self.mapping[word2]): 
+                heapq.heappush(heap, (abs(self.mapping[word1][i] - self.mapping[word2][j + 1]), i, j + 1))
+            
+            if i + 1 < len(self.mapping[word1]):
+                heapq.heappush(heap, (abs(self.mapping[word1][i + 1] - self.mapping[word2][j]), i + 1, j))
+            
         return res
+
+
+
+
 
 
 # Your WordDistance object will be instantiated and called as such:
