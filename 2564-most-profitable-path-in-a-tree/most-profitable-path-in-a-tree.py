@@ -11,12 +11,14 @@ class Solution:
             path.append(node)
             if node == bob:
                 bob_path = path[:]
-                return 
+                return True
             
             for nei in adj[node]: 
                 if nei != parent:
-                    dfs_bob(nei, node, path)
+                    if dfs_bob(nei, node, path):
+                        return True
             path.pop()
+            return False
         dfs_bob(0, -1, [])
 
         bob_reach_time = collections.defaultdict(lambda: float('inf'))
