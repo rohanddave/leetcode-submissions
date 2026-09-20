@@ -11,13 +11,10 @@ class Solution:
         idx = 1
         critical_points = []
         while nex:
-            if not prev: 
-                critical_points.append(-1)
-            else: 
-                if curr.val < prev.val and curr.val < nex.val: # minima
-                    critical_points.append(idx)
-                elif curr.val > prev.val and curr.val > nex.val: # maxima
-                    critical_points.append(idx)
+            if curr.val < prev.val and curr.val < nex.val: # minima
+                critical_points.append(idx)
+            elif curr.val > prev.val and curr.val > nex.val: # maxima
+                critical_points.append(idx)
                                
             idx += 1
             tmp = nex.next
