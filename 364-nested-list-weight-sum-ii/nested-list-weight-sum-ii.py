@@ -44,22 +44,29 @@
 class Solution:
     def depthSumInverse(self, nestedList: list[NestedInteger]) -> int:
         max_depth = float('-inf')
-        depths = []
 
-        def dfs(arr, depth): 
-            nonlocal max_depth, depths
+        def get_max_depth(arr, depth): 
+            nonlocal max_depth
             
             for j in range(len(arr)):
                 if arr[j].isInteger():
                     max_depth = max(max_depth, depth)
-                    depths.append((arr[j].getInteger(), depth))
+                else:
+                    get_max_depth(arr[j].getList(), depth + 1)
+        
+        res = 0
+        def dfs(arr, depth): 
+            nonlocal res, max_depth
+            
+            for j in range(len(arr)):
+                if arr[j].isInteger():
+                    weight = max_depth - depth + 1 
+                    res += arr[j].getInteger() * weight
                 else:
                     dfs(arr[j].getList(), depth + 1)
+                
+        get_max_depth(nestedList, 1)
         dfs(nestedList, 1)
-        res = 0 
-        for num, depth in depths:
-            weight = max_depth - depth + 1 
-            res += num * weight
         return res
 
 
