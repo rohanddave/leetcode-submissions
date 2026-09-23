@@ -6,6 +6,7 @@
 #         self.right = right
 class Solution:
     def closestKValues(self, root: TreeNode | None, target: float, k: int) -> list[int]:
+        # APPROACH 1:
         # heap = [] 
 
         # def dfs(node): 
@@ -20,6 +21,7 @@ class Solution:
         # dfs(root)
         # return [val for _, val in heap]
 
+        # APPROACH 2:
         inorder = [] 
 
         def dfs(node):
@@ -52,6 +54,8 @@ class Solution:
                 res.append(inorder[j])
                 j += 1
         return res
+        
+            
             
 
         
