@@ -15,9 +15,9 @@ class Solution:
             q = collections.deque()
             visited = set()
             obstacles = set()
+            
             for i in range(x): 
                 obstacles.add((cells[i][0], cells[i][1]))
-            print(x, obstacles)
         
             for i in range(col): 
                 point = (1, i + 1) 
