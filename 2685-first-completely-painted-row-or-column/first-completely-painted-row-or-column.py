@@ -16,6 +16,3 @@ class Solution:
             cols[col] += 1
             if rows[row] == n or cols[col] == m:
                 return i
-                 
-
-        
