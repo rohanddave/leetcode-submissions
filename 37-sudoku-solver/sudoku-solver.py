@@ -19,7 +19,6 @@ class Solution:
                     rows[i] |= mask
                     cols[j] |= mask
                     grid[(i // 3) * 3 + (j // 3)] |= mask
-        
 
         def dfs(i):
             if i == len(empty):
@@ -34,7 +33,6 @@ class Solution:
                     grid[(r // 3) * 3 + (c // 3)] & (1 << candidate)
                 ): 
                     continue
-                
                 
                 prev_row, prev_col, prev_grid = rows[r], cols[c], grid[(r // 3) * 3 + (c // 3)]
 
