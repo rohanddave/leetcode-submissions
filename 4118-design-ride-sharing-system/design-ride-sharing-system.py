@@ -17,7 +17,7 @@ class RideSharingSystem:
             return [-1, -1]
         
         while self.rider_q and self.rider_q[0] not in self.riders:
-            popped_rider = self.rider_q.popleft()
+            self.rider_q.popleft()
             
 
         if not self.rider_q: 
