@@ -1,32 +1,21 @@
-class TreeNode: 
-    def __init__(self, value = -1): 
-        self.value = value
-        self.children = {}
-
 class FileSystem:
 
     def __init__(self):
-        self.root = TreeNode()        
+        self.mapping = {}
+        self.mapping['/'] = -1
 
     def createPath(self, path: str, value: int) -> bool:
-        curr = self.root 
         path_arr = path.split('/')[1:]
-        for p in path_arr[:-1]:
-            if p not in curr.children: 
-                return False
-            curr = curr.children[p]
-        if path_arr[-1] in curr.children:
-            return False
-        curr.children[path_arr[-1]] = TreeNode(value)
-        return True        
+        parent_path = '/' + '/'.join(path_arr[:-1])
+        if  parent_path not in self.mapping or path in self.mapping:
+            return False 
+        self.mapping[path] = value
+        return True       
 
     def get(self, path: str) -> int:
-        curr = self.root 
-        for p in path.split('/')[1:]:
-            if p not in curr.children:
-                return -1
-            curr = curr.children[p]
-        return curr.value
+        if path not in self.mapping:
+            return -1
+        return self.mapping[path]
 
 # Your FileSystem object will be instantiated and called as such:
 # obj = FileSystem()
