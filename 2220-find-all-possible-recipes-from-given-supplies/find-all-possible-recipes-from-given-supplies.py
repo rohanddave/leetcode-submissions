@@ -10,6 +10,7 @@ class Solution:
         BLACK, WHITE, GREY = 0, 1, 2
         colors = collections.defaultdict(lambda: WHITE)
 
+        @cache
         def dfs(recipe):
             if colors[recipe] == GREY:
                 return False
