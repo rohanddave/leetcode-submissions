@@ -10,8 +10,6 @@ class Solution:
         answer = [0] * n
 
         def dfs_bottom_up(node, parent): 
-            res = 0
-
             for child in adj[node]:
                 if child == parent:
                     continue
@@ -21,7 +19,6 @@ class Solution:
             
         
         def dfs_top_down(node, parent): 
-
             for child in adj[node]:
                 if child == parent:
                     continue 
