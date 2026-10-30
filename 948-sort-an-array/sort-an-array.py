@@ -29,6 +29,9 @@ class Solution:
             
             return res
         
+        if not nums:
+            return []
+            
         return merge_sort(0, len(nums) - 1)
 
         
