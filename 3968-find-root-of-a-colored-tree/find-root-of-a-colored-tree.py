@@ -33,13 +33,11 @@ class Solution:
 
             while q: 
                 level_size = len(q) 
-                # print(f'level_size: {level_size} \t target_color: {target_color}')
 
                 for _ in range(level_size): 
                     node = q.popleft()
                     node_color = colors[node]
                     if node_color != target_color:
-                        # print(f'returning false for node: {node} with color {node_color}')
                         return False
                     for child in adj[node]:
                         if child == node or child in visited:
